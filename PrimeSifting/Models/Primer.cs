@@ -23,15 +23,22 @@ namespace PrimeSifting.Models
     {
       Primes.Add(Numbers[0]);
     }
-
+    
+    public static void FindPrimes()
+    {
+      while (Numbers.Count > 0)
+      {
+        RemoveUnprimes();
+      }
+    }
     public static void RemoveUnprimes()
     {
       int p = Primes.Last();
-      List<int> multiples = new List<int> { };
+      List<int> multiples = new List<int> {};
       foreach (int num in Numbers)
       {
         int nonprime = num * p;
-        if (nonprime < InputNum)
+        if (nonprime <= InputNum)
         {
           multiples.Add(num * p);
         }
@@ -40,18 +47,27 @@ namespace PrimeSifting.Models
           break;
         }
       }
-      foreach (int num in multiples)
+      for (int i = 0; i < multiples.Count; i++)
       {
-        foreach (int otherNum in Numbers)
+        foreach (int num in Numbers)
         {
-          if (num == otherNum)
+          if (num == multiples[i])
           {
-            Numbers.Remove(otherNum);
+            // Console.WriteLine($"Numbers: {num}");
+            // Console.WriteLine($"Multiples: {multiples[i]}");
+            Numbers.Remove(num);
             break;
           }
         }
       }
+      // (int num in multiples)
+      // foreach (int num in multiples)
+      // {
+      //   Console.WriteLine(num);
+      // }
       PrimeIt();
+      Numbers.Remove(p);
+      multiples.Clear();
     }
   }
 }
